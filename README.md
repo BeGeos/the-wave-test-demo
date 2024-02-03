@@ -38,3 +38,36 @@ L'obbiettivo è costruire un backend server che supporti lo sviluppo front-end d
 ## Deployment
 
 - Deployed @ [Railway](https://the-wave-test-demo-production.up.railway.ap)
+
+## Local development
+
+Per lo sviluppo in locale del progetto
+
+1. copiare la repo localmente
+
+```bash
+git pull [origin-della-repo]
+```
+
+2. Costruire il container su Dockerfile. Nella root del progetto
+
+```bash
+docker build
+```
+
+3. Una volta terminato il processo di build avviare i container tramite `docker-compose`. Assicurarsi di averlo installato sul proprio computer. Oppure visita la [pagina](https://docs.docker.com/compose/install/).
+   Il file crea 2 immagini - una per il database postgres e una per i file del progetto. Nel caso ci siano problemi con i volumi dedicati come `naming conflicts` etc, modificare il `docker-compose.yml` file nella root del progetto
+
+```bash
+docker-compose up -d
+```
+
+oppure
+
+```bash
+# Questo avvia il processo e mostra direttamente sul terminale invece che avviarlo in background daemon o sub-process
+
+docker-compose up
+```
+
+4. Se tutto il processo e' andato a buon fine i container dovrebbero mostrare una attivita' e visitando `https://localhost:3000/pulse` si dovrebbe vedere un bel 💗
