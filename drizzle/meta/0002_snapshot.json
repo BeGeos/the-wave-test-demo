@@ -1,0 +1,321 @@
+{
+  "id": "1036296b-ad82-4254-8643-0bb2ec20c6a5",
+  "prevId": "d097712a-9320-4695-b0c4-6b378287f41b",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "Character": {
+      "name": "Character",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "location_id": {
+          "name": "location_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gender": {
+          "name": "gender",
+          "type": "genders",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'unknown'"
+        },
+        "status": {
+          "name": "status",
+          "type": "statuses",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'alive'"
+        },
+        "species": {
+          "name": "species",
+          "type": "species",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'mythological creature'"
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description_html": {
+          "name": "description_html",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "locationId_Idx": {
+          "name": "locationId_Idx",
+          "columns": [
+            "location_id"
+          ],
+          "isUnique": false
+        },
+        "status_Idx": {
+          "name": "status_Idx",
+          "columns": [
+            "status"
+          ],
+          "isUnique": false
+        },
+        "gender_Idx": {
+          "name": "gender_Idx",
+          "columns": [
+            "gender"
+          ],
+          "isUnique": false
+        },
+        "species_Idx": {
+          "name": "species_Idx",
+          "columns": [
+            "species"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "Character_location_id_Location_id_fk": {
+          "name": "Character_location_id_Location_id_fk",
+          "tableFrom": "Character",
+          "tableTo": "Location",
+          "columnsFrom": [
+            "location_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "CharactersToEpisodes": {
+      "name": "CharactersToEpisodes",
+      "schema": "",
+      "columns": {
+        "character_id": {
+          "name": "character_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "episode_id": {
+          "name": "episode_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "CharactersToEpisodes_character_id_Character_id_fk": {
+          "name": "CharactersToEpisodes_character_id_Character_id_fk",
+          "tableFrom": "CharactersToEpisodes",
+          "tableTo": "Character",
+          "columnsFrom": [
+            "character_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "CharactersToEpisodes_episode_id_Episode_id_fk": {
+          "name": "CharactersToEpisodes_episode_id_Episode_id_fk",
+          "tableFrom": "CharactersToEpisodes",
+          "tableTo": "Episode",
+          "columnsFrom": [
+            "episode_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "CharactersToEpisodes_character_id_episode_id_pk": {
+          "name": "CharactersToEpisodes_character_id_episode_id_pk",
+          "columns": [
+            "character_id",
+            "episode_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "Episode": {
+      "name": "Episode",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "air_date": {
+          "name": "air_date",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "episode": {
+          "name": "episode",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "air_date_Idx": {
+          "name": "air_date_Idx",
+          "columns": [
+            "air_date"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "Location": {
+      "name": "Location",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dimension": {
+          "name": "dimension",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "type_Idx": {
+          "name": "type_Idx",
+          "columns": [
+            "type"
+          ],
+          "isUnique": false
+        },
+        "dimension_Idx": {
+          "name": "dimension_Idx",
+          "columns": [
+            "dimension"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "genders": {
+      "name": "genders",
+      "values": {
+        "male": "male",
+        "female": "female",
+        "genderless": "genderless",
+        "unknown": "unknown"
+      }
+    },
+    "species": {
+      "name": "species",
+      "values": {
+        "human": "human",
+        "alien": "alien",
+        "mythological creature": "mythological creature"
+      }
+    },
+    "statuses": {
+      "name": "statuses",
+      "values": {
+        "alive": "alive",
+        "dead": "dead",
+        "unknown": "unknown"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

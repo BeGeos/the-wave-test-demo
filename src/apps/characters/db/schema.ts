@@ -7,9 +7,11 @@ import {
   integer,
   index,
   pgEnum,
+  primaryKey,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
+import { Episode } from '$apps/episodes/db/schema';
 import { Location } from '$apps/locations/db/schema';
 
 export const GENDERS = pgEnum('genders', [
@@ -58,9 +60,41 @@ export const Character = pgTable(
   }
 );
 
-export const CharacterRelations = relations(Character, ({ one }) => ({
+export const CharacterRelations = relations(Character, ({ one, many }) => ({
   location: one(Location, {
     fields: [Character.locationId],
     references: [Location.id],
   }),
+
+  // M2M
+  episode_through_set: many(CharactersToEpisodes),
 }));
+
+export const CharactersToEpisodes = pgTable(
+  'CharactersToEpisodes',
+  {
+    characterId: integer('character_id')
+      .notNull()
+      .references(() => Character.id, { onDelete: 'cascade' }),
+    episodeId: integer('episode_id')
+      .notNull()
+      .references(() => Episode.id, { onDelete: 'cascade' }),
+  },
+  (table) => ({
+    primaryKey: primaryKey({ columns: [table.characterId, table.episodeId] }),
+  })
+);
+
+export const CharactersToEpisodesRelations = relations(
+  CharactersToEpisodes,
+  ({ one }) => ({
+    character: one(Character, {
+      fields: [CharactersToEpisodes.characterId],
+      references: [Character.id],
+    }),
+    episode: one(Episode, {
+      fields: [CharactersToEpisodes.episodeId],
+      references: [Episode.id],
+    }),
+  })
+);

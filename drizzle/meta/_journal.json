@@ -15,6 +15,13 @@
       "when": 1706982052624,
       "tag": "0001_married_scalphunter",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1706982870506,
+      "tag": "0002_tidy_sebastian_shaw",
+      "breakpoints": true
     }
   ]
 }
