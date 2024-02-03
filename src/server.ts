@@ -5,6 +5,8 @@ import cors from 'cors';
 
 import { baseRouter, BASE_URL } from '$routes';
 
+import { notFound, genericError } from './errors';
+
 const app = express();
 const port = process.env.PORT;
 
@@ -15,6 +17,9 @@ app.listen(port, async () => {
 
     // Routes
     app.use(BASE_URL, baseRouter);
+
+    app.use(notFound);
+    app.use(genericError);
 
     console.log(`✅ Server is listening at http://localhost:${port}`);
   } catch (err: any) {
