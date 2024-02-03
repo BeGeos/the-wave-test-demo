@@ -1,0 +1,132 @@
+{
+  "id": "d3e0dcec-71fe-4565-9cf4-0a05568ea5b4",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "Character": {
+      "name": "Character",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gender": {
+          "name": "gender",
+          "type": "genders",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'unknown'"
+        },
+        "status": {
+          "name": "status",
+          "type": "statuses",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'alive'"
+        },
+        "species": {
+          "name": "species",
+          "type": "species",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'mythological creature'"
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description_html": {
+          "name": "description_html",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "status_Idx": {
+          "name": "status_Idx",
+          "columns": [
+            "status"
+          ],
+          "isUnique": false
+        },
+        "gender_Idx": {
+          "name": "gender_Idx",
+          "columns": [
+            "gender"
+          ],
+          "isUnique": false
+        },
+        "species_Idx": {
+          "name": "species_Idx",
+          "columns": [
+            "species"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "genders": {
+      "name": "genders",
+      "values": {
+        "male": "male",
+        "female": "female",
+        "genderless": "genderless",
+        "unknown": "unknown"
+      }
+    },
+    "species": {
+      "name": "species",
+      "values": {
+        "human": "human",
+        "alien": "alien",
+        "mythological creature": "mythological creature"
+      }
+    },
+    "statuses": {
+      "name": "statuses",
+      "values": {
+        "alive": "alive",
+        "dead": "dead",
+        "unknown": "unknown"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

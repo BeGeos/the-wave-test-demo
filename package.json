@@ -8,7 +8,7 @@
     "build:watch": "concurrently \"tsc -w\" \"tsc-alias -w\"",
     "start": "nodemon build/server.js",
     "start:dev": "pnpm run start",
-    "start:prod": "node build/server.js",
+    "start:prod": "pnpm run dz:migrate && node build/server.js",
     "dz:generate": "drizzle-kit generate:pg --config=drizzle.config.json",
     "dz:drop": "drizzle-kit drop",
     "dz:push": "drizzle-kit push:pg --config=drizzle.config.json",
