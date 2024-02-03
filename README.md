@@ -9,6 +9,7 @@ I requisiti del test sono divisi in "**mandatory**" (ovvero quello che ci si asp
 L'obbiettivo è costruire un backend server che supporti lo sviluppo front-end della web application disegnata su Figma.
 
 #### Mandatory
+
 - Costruire i modelli dati delle entità "**Personaggio**", "**Episodio**" e "**Location**" della serie.
 - Sviluppare tutti gli endpoint necessari al CRUD di un personaggio.
 - Ogni personaggio avrà relazioni "**1 a N**" o "**N a N**" con le entità "**Episodes**" e "**Location**"
@@ -17,6 +18,7 @@ L'obbiettivo è costruire un backend server che supporti lo sviluppo front-end d
 - Unit Test per il 50% degli endpoint.
 
 #### Nice to have
+
 - Chiara divisione dei componenti e del codice riutilizzabile, utilizzando una folder structure leggibile.
 - Logica di paginazione per tutte le GET.
 - Utilizzo di GraphQL.
@@ -28,3 +30,7 @@ L'obbiettivo è costruire un backend server che supporti lo sviluppo front-end d
 - Non avendo accesso ai dati sui personaggi originali della serie sarà possibile utilizzare una libreria come faker(https://fakerjs.dev/) o utilizzare un dataset molto ridotto (5 personaggi, 4 location, 4 Episodi)
 - Sarebbe opportuno utilizzare TypeScript.
 - Sarebbe opportuno effettuare vari commit ogni volta che si lavora ad una feature, utilizzando i conventional commits.
+
+## Test
+
+- Test commit iniziale Marco Montepeloso
