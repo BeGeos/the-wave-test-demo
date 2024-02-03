@@ -12,6 +12,14 @@ import {
   router as CharacterRouter,
   BASE_URL as CharacterBaseUrl,
 } from '$apps/characters/routes/api';
+import {
+  router as EpisodeRouter,
+  BASE_URL as EpisodeBaseUrl,
+} from '$apps/episodes/routes/api';
+import {
+  router as LocationRouter,
+  BASE_URL as LocationBaseUrl,
+} from '$apps/locations/routes/api';
 
 const apiRouterV1 = express.Router();
 apiRouterV1.use((req, res, next) => {
@@ -19,6 +27,8 @@ apiRouterV1.use((req, res, next) => {
   next();
 });
 apiRouterV1.use(CharacterBaseUrl, CharacterRouter);
+apiRouterV1.use(EpisodeBaseUrl, EpisodeRouter);
+apiRouterV1.use(LocationBaseUrl, LocationRouter);
 
 export const BASE_URL = '/';
 const baseRouter = express.Router();
