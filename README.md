@@ -34,3 +34,7 @@ L'obbiettivo è costruire un backend server che supporti lo sviluppo front-end d
 ## Test
 
 - Test commit iniziale Marco Montepeloso
+
+## Deployment
+
+- Deployed @ [Railway](https://the-wave-test-demo-production.up.railway.ap)
