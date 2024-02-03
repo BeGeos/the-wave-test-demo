@@ -10,32 +10,6 @@ import { Character, CharactersToEpisodes } from './schema';
 import { CharacterInsertSchema, CharacterUpdateSchema } from './validators';
 import { extractFilters, ALLOWED_FILTERS } from './utils';
 
-const withGenders = <T extends PgSelect>(query: T, genders: string[]) => {
-  // TS doesn't like the fact that gender is an enum but genders could be whatever
-  // @ts-ignore
-  return query.where(inArray(Character.gender, genders));
-};
-
-const withStatuses = <T extends PgSelect>(query: T, statuses: string[]) => {
-  // Read above
-  // @ts-ignore
-  return query.where(inArray(Character.status, statuses));
-};
-
-const withSpecies = <T extends PgSelect>(query: T, species: string[]) => {
-  // Read above
-  // @ts-ignore
-  return query.where(inArray(Character.species, species));
-};
-
-const withPagination = <T extends PgSelect>(
-  query: T,
-  page: number,
-  pageSize: number = 5
-) => {
-  return query.limit(pageSize).offset(page * pageSize - pageSize);
-};
-
 //CRUD
 
 export const create = async (data: Record<string, any>) => {
@@ -76,25 +50,38 @@ export const getAll = async (query?: Record<string, string>) => {
     Object.assign(filters, { ...extractFilters(query) });
   }
 
-  let qb = db.select().from(Character).orderBy(Character.id).$dynamic();
+  let characters = await db.select().from(Character).orderBy(Character.id);
+
+  // TODO this filters part could be optimised with Raw SQL query
+  // Where conditions cannot be chained on query unless it's `$ynamic()`
+  // but the chain is apparently exclusive one eliminates the other - does a merge on the where
+  // Known issue @ [https://github.com/drizzle-team/drizzle-orm-docs/issues/189]
 
   if (filters[ALLOWED_FILTERS.gender].length > 0) {
-    qb = withGenders(qb, filters[ALLOWED_FILTERS.gender]);
+    characters = characters.filter((character) =>
+      filters[ALLOWED_FILTERS.gender].includes(character.gender)
+    );
   }
 
   if (filters[ALLOWED_FILTERS.status].length > 0) {
-    qb = withStatuses(qb, filters[ALLOWED_FILTERS.status]);
+    characters = characters.filter((character) =>
+      filters[ALLOWED_FILTERS.status].includes(character.status)
+    );
   }
 
   if (filters[ALLOWED_FILTERS.species].length > 0) {
-    qb = withSpecies(qb, filters[ALLOWED_FILTERS.species]);
+    characters = characters.filter((character) =>
+      filters[ALLOWED_FILTERS.species].includes(character.species)
+    );
   }
 
   if (query?.page) {
-    qb = withPagination(qb, +query.page, +query.size || 5);
+    const page = query.page;
+    const size = query.size || 5;
+    characters = characters.slice((+page - 1) * +size, +size * +page);
   }
 
-  return qb;
+  return characters;
 };
 
 export const update = async (id: number, data: Record<string, any>) => {
