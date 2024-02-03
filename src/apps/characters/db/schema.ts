@@ -4,9 +4,13 @@ import {
   text,
   timestamp,
   varchar,
+  integer,
   index,
   pgEnum,
 } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
+
+import { Location } from '$apps/locations/db/schema';
 
 export const GENDERS = pgEnum('genders', [
   'male',
@@ -26,6 +30,9 @@ export const Character = pgTable(
   {
     // Required
     id: serial('id').primaryKey(),
+    locationId: integer('location_id').references(() => Location.id, {
+      onDelete: 'set null',
+    }),
 
     // Required
     name: varchar('name', { length: 64 }).notNull(),
@@ -43,9 +50,17 @@ export const Character = pgTable(
   },
   (table) => {
     return {
+      locationIdIdx: index('locationId_Idx').on(table.locationId),
       statusIdx: index('status_Idx').on(table.status),
       genderIdx: index('gender_Idx').on(table.gender),
       speciesIdx: index('species_Idx').on(table.species),
     };
   }
 );
+
+export const CharacterRelations = relations(Character, ({ one }) => ({
+  location: one(Location, {
+    fields: [Character.locationId],
+    references: [Location.id],
+  }),
+}));
