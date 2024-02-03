@@ -3,7 +3,8 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 
-import { baseRouter, BASE_URL } from '$routes';
+import { API_V1_BASE_URL } from './constants';
+import { baseRouter, apiRouterV1, BASE_URL } from '$routes';
 
 import { notFound, genericError } from './errors';
 
@@ -16,6 +17,7 @@ app.listen(port, async () => {
     app.use(express.json());
 
     // Routes
+    app.use(API_V1_BASE_URL, apiRouterV1);
     app.use(BASE_URL, baseRouter);
 
     app.use(notFound);
