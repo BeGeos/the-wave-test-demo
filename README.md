@@ -71,3 +71,14 @@ docker-compose up
 ```
 
 4. Se tutto il processo e' andato a buon fine i container dovrebbero mostrare una attivita' e visitando `https://localhost:3000/pulse` si dovrebbe vedere un bel 💗
+
+5. Per eseguire i test
+
+```bash
+pnpm test
+# or
+pnpm test:watch  # questo setta vitest in watch mode - rerun ad ogni cambiamento
+```
+
+6. Per visitare al documentazione riguardo gli endpoint visitare la risorsa a `/docs`. I docs sono gestiti da [Swagger](https://swagger.io/docs/). Per aggiungere o modificare la documentazione bisogna modificare il file nella root del progetto `swagger.yaml`.
+   Siccome il file non e' monitorato da tsc ad ogni cambiamento bisogna riavviare il server per poterlo vedere all'indirizzo della risorsa.
