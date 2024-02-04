@@ -18,7 +18,7 @@ const router = express.Router();
 
 router
   .route(ROUTES.details_v1.url)
-  .get(async (req: Request, res: Response, next: NextFunction) => {
+  .all(async (req: Request, res: Response, next: NextFunction) => {
     const {
       params: { id },
     } = req;
@@ -30,8 +30,15 @@ router
       return next(new Error('Params id must be of integer type'));
     }
 
+    next();
+  })
+  .get(async (req: Request, res: Response, next: NextFunction) => {
+    const {
+      params: { id },
+    } = req;
+
     try {
-      const data = await get(intId);
+      const data = await get(+id);
 
       if (!data) return next(); // aka 404
 

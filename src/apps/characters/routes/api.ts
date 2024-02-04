@@ -40,7 +40,9 @@ router
 router
   .route(ROUTES.details_v1.url)
   .all((req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    const {
+      params: { id },
+    } = req;
 
     const intId = parseInt(id);
 
