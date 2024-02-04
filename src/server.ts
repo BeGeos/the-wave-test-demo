@@ -11,11 +11,17 @@ import { notFound, genericError } from './errors';
 // Swagger
 import { BASE_URL as DocsBaseUrl } from './swagger';
 
+import { getLogger } from './logger';
+
 const app = express();
 const port = process.env.PORT;
 
+const DEBUG = process.env.DEBUG === 'true';
+
 app.listen(port, async () => {
   try {
+    // Super simple request logger
+    app.use(getLogger());
     app.use(cors());
     app.use(express.json());
 

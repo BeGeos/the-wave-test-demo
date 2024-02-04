@@ -69,7 +69,6 @@ router
         .status(500)
         .json({ error: JSON.stringify(serializer.error.format()) });
     } catch (err: any) {
-      console.error(err);
       res.status(500);
       return next(err);
     }
@@ -102,7 +101,6 @@ router
       // If any error were to happen I assume it's a 5xx and the genericError handler will catch it
       return res.status(204).end();
     } catch (err: any) {
-      console.error(err);
       res.status(500);
       return next(err);
     }

@@ -65,7 +65,6 @@ router
         .json({ error: JSON.stringify(serializer.error.format()) });
     } catch (err: any) {
       res.status(500);
-      console.error(err);
       return next(err);
     }
   });
@@ -100,7 +99,6 @@ router
         .json({ error: JSON.stringify(serializer.error.format()) });
     } catch (err: any) {
       res.status(500);
-      console.error(err);
       return next(err);
     }
   });

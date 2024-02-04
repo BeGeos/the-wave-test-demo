@@ -21,6 +21,7 @@ export const genericError: ErrorRequestHandler = async (
   res: Response,
   next: NextFunction
 ) => {
+  req.log.error(err);
   res.status(res.statusCode || 500);
   res.json({
     message: err.message,
