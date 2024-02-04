@@ -18,9 +18,9 @@ const router = express.Router();
 
 export const BASE_URL = '/locations';
 
-router.get(
-  ROUTES.details_v1.url,
-  async (req: Request, res: Response, next: NextFunction) => {
+router
+  .route(ROUTES.details_v1.url)
+  .get(async (req: Request, res: Response, next: NextFunction) => {
     const {
       params: { id },
     } = req;
@@ -63,12 +63,11 @@ router.get(
       console.error(err);
       return next(err);
     }
-  }
-);
+  });
 
-router.get(
-  ROUTES.base_v1.url,
-  async (req: Request, res: Response, next: NextFunction) => {
+router
+  .route(ROUTES.base_v1.url)
+  .get(async (req: Request, res: Response, next: NextFunction) => {
     const { query } = req;
     try {
       const locations = await getAll(query as Record<string, string>);
@@ -99,7 +98,6 @@ router.get(
       console.error(err);
       return next(err);
     }
-  }
-);
+  });
 
 export { router };

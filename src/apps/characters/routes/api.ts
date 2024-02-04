@@ -14,21 +14,34 @@ const router = express.Router();
 
 export const BASE_URL = '/characters';
 
-router.get(ROUTES.base_v1.url, async (req: Request, res: Response) => {
-  const { query } = req;
-  const data = await getAll(query as unknown as Record<string, string>);
-  const serializer = CharacterBasePublicResponse__many.safeParse(data);
+router
+  .route(ROUTES.base_v1.url)
+  .get(async (req: Request, res: Response) => {
+    const { query } = req;
+    const data = await getAll(query as unknown as Record<string, string>);
+    const serializer = CharacterBasePublicResponse__many.safeParse(data);
 
-  if (serializer.success) return res.status(200).json(serializer.data);
+    if (serializer.success) return res.status(200).json(serializer.data);
 
-  return res
-    .status(500)
-    .json({ error: JSON.stringify(serializer.error.format()) });
-});
+    return res
+      .status(500)
+      .json({ error: JSON.stringify(serializer.error.format()) });
+  })
+  .post(async (req: Request, res: Response, next: NextFunction) => {
+    const { body } = req;
 
-router.get(
-  ROUTES.details_v1.url,
-  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const created = await create(body);
+      return res.status(201).json(created);
+    } catch (err: any) {
+      res.status(400);
+      return next(err);
+    }
+  });
+
+router
+  .route(ROUTES.details_v1.url)
+  .all((req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
     const intId = parseInt(id);
@@ -38,8 +51,13 @@ router.get(
       return next(new Error('Params id must be of integer type'));
     }
 
+    next();
+  })
+  .get(async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
     try {
-      const instance = await get(intId); // turns it into number
+      const instance = await get(+id); // turns it into number
 
       if (!instance) return next(); // Will be caught by notFound
 
@@ -55,40 +73,15 @@ router.get(
       res.status(500);
       return next(err);
     }
-  }
-);
-
-router.post(
-  ROUTES.base_v1.url,
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { body } = req;
-
-    try {
-      const created = await create(body);
-      return res.status(201).json(created);
-    } catch (err: any) {
-      res.status(400);
-      return next(err);
-    }
-  }
-);
-
-router.put(
-  ROUTES.details_v1.url,
-  async (req: Request, res: Response, next: NextFunction) => {
+  })
+  .put(async (req: Request, res: Response, next: NextFunction) => {
     const {
       body,
       params: { id },
     } = req;
-    const intId = parseInt(id);
-
-    if (isNaN(intId)) {
-      res.status(400);
-      return next(new Error('Params id must be of integer type'));
-    }
 
     try {
-      const updated = await update(intId, body);
+      const updated = await update(+id, body);
 
       if (!updated || !updated[0]) return next();
 
@@ -98,24 +91,14 @@ router.put(
       res.status(400);
       return next(err);
     }
-  }
-);
-
-router.delete(
-  ROUTES.details_v1.url,
-  async (req: Request, res: Response, next: NextFunction) => {
+  })
+  .delete(async (req: Request, res: Response, next: NextFunction) => {
     const {
       params: { id },
     } = req;
-    const intId = parseInt(id);
-
-    if (isNaN(intId)) {
-      res.status(400);
-      return next(new Error('Params id must be of integer type'));
-    }
 
     try {
-      await del(intId);
+      await del(+id);
       // If any error were to happen I assume it's a 5xx and the genericError handler will catch it
       return res.status(204).end();
     } catch (err: any) {
@@ -123,7 +106,6 @@ router.delete(
       res.status(500);
       return next(err);
     }
-  }
-);
+  });
 
 export { router };

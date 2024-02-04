@@ -17,9 +17,9 @@ const router = express.Router();
 
 export const BASE_URL = '/episodes';
 
-router.get(
-  ROUTES.details_v1.url,
-  async (req: Request, res: Response, next: NextFunction) => {
+router
+  .route(ROUTES.details_v1.url)
+  .get(async (req: Request, res: Response, next: NextFunction) => {
     const {
       params: { id },
     } = req;
@@ -64,12 +64,11 @@ router.get(
       console.error(err);
       return next(err);
     }
-  }
-);
+  });
 
-router.get(
-  ROUTES.base_v1.url,
-  async (req: Request, res: Response, next: NextFunction) => {
+router
+  .route(ROUTES.base_v1.url)
+  .get(async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { query } = req;
       // I have to make 2 queries because Drizzle dynamic query acts weird when paginating
@@ -103,7 +102,6 @@ router.get(
       console.error(err);
       return next(err);
     }
-  }
-);
+  });
 
 export { router };
