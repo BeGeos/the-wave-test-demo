@@ -4,23 +4,23 @@ import 'dotenv/config';
 
 import express from 'express';
 
-import { ROUTES as CharacterRoutes } from '$apps/characters/routes';
-import { ROUTES as DocsRoutes } from './swagger';
-import { ROUTES as EpisodesRoutes } from '$apps/episodes/routes';
-import { ROUTES as LocationRoutes } from '$apps/locations/routes';
-
 import {
-  router as CharacterRouter,
+  ROUTES as CharacterRoutes,
   BASE_URL as CharacterBaseUrl,
-} from '$apps/characters/routes/api';
+} from '$apps/characters/routes';
+import { ROUTES as DocsRoutes } from './swagger';
 import {
-  router as EpisodeRouter,
+  ROUTES as EpisodesRoutes,
   BASE_URL as EpisodeBaseUrl,
-} from '$apps/episodes/routes/api';
+} from '$apps/episodes/routes';
 import {
-  router as LocationRouter,
+  ROUTES as LocationRoutes,
   BASE_URL as LocationBaseUrl,
-} from '$apps/locations/routes/api';
+} from '$apps/locations/routes';
+
+import { router as CharacterRouter } from '$apps/characters/routes/api';
+import { router as EpisodeRouter } from '$apps/episodes/routes/api';
+import { router as LocationRouter } from '$apps/locations/routes/api';
 import { ui as SwaggerUi, setup as SwaggerSetup } from './swagger';
 
 const apiRouterV1 = express.Router();
@@ -32,7 +32,6 @@ apiRouterV1.use(CharacterBaseUrl, CharacterRouter);
 apiRouterV1.use(EpisodeBaseUrl, EpisodeRouter);
 apiRouterV1.use(LocationBaseUrl, LocationRouter);
 
-export const BASE_URL = '/';
 const baseRouter = express.Router();
 baseRouter.use((req: Request, res: Response, next: NextFunction) => {
   // Handles base requests

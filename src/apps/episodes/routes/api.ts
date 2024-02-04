@@ -15,8 +15,6 @@ import {
 
 const router = express.Router();
 
-export const BASE_URL = '/episodes';
-
 router
   .route(ROUTES.details_v1.url)
   .get(async (req: Request, res: Response, next: NextFunction) => {

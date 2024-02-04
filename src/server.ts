@@ -3,8 +3,8 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 
-import { API_V1_BASE_URL } from './constants';
-import { baseRouter, apiRouterV1, docsRouter, BASE_URL } from '$routes';
+import { API_V1_BASE_URL, BASE_URL } from './constants';
+import { baseRouter, apiRouterV1, docsRouter } from '$routes';
 
 import { notFound, genericError } from './errors';
 

@@ -12,8 +12,6 @@ import { ROUTES } from '.';
 
 const router = express.Router();
 
-export const BASE_URL = '/characters';
-
 router
   .route(ROUTES.base_v1.url)
   .get(async (req: Request, res: Response) => {
