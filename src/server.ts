@@ -4,9 +4,12 @@ import express from 'express';
 import cors from 'cors';
 
 import { API_V1_BASE_URL } from './constants';
-import { baseRouter, apiRouterV1, BASE_URL } from '$routes';
+import { baseRouter, apiRouterV1, docsRouter, BASE_URL } from '$routes';
 
 import { notFound, genericError } from './errors';
+
+// Swagger
+import { BASE_URL as DocsBaseUrl } from './swagger';
 
 const app = express();
 const port = process.env.PORT;
@@ -18,6 +21,7 @@ app.listen(port, async () => {
 
     // Routes
     app.use(API_V1_BASE_URL, apiRouterV1);
+    app.use(DocsBaseUrl, docsRouter);
     app.use(BASE_URL, baseRouter);
 
     app.use(notFound);

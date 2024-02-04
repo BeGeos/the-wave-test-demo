@@ -5,6 +5,7 @@ import 'dotenv/config';
 import express from 'express';
 
 import { ROUTES as CharacterRoutes } from '$apps/characters/routes';
+import { ROUTES as DocsRoutes } from './swagger';
 import { ROUTES as EpisodesRoutes } from '$apps/episodes/routes';
 import { ROUTES as LocationRoutes } from '$apps/locations/routes';
 
@@ -20,6 +21,7 @@ import {
   router as LocationRouter,
   BASE_URL as LocationBaseUrl,
 } from '$apps/locations/routes/api';
+import { ui as SwaggerUi, setup as SwaggerSetup } from './swagger';
 
 const apiRouterV1 = express.Router();
 apiRouterV1.use((req, res, next) => {
@@ -42,10 +44,15 @@ baseRouter.get('/pulse', (req: Request, res: Response) => {
   res.send('💗').status(200);
 });
 
-export { apiRouterV1, baseRouter };
+const docsRouter = express.Router();
+docsRouter.use(DocsRoutes.base.url, SwaggerUi.serve, SwaggerSetup);
 
+export { apiRouterV1, baseRouter, docsRouter };
+
+// Register new routes here
 const ROUTES: Record<string, any> = {
   characters: CharacterRoutes,
+  docs: DocsRoutes,
   episodes: EpisodesRoutes,
   locations: LocationRoutes,
 };

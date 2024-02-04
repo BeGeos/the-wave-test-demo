@@ -1,0 +1,220 @@
+openapi: 3.0.0
+info:
+  title: Swagger Rick & Morty API - The Wave 🌊
+  description: Test Marco Montepeloso - 5 Feb 2024
+  version: 0.1.0
+
+paths:
+  /api/v1/characters:
+    get:
+      summary: Get all characters
+      description: Returns all characters. It supports pagination with `page=<number>` and `size=<number>` by default is 5
+      tags:
+        - characters
+      responses:
+        200:
+          description: Successful response
+        500:
+          description: Something went wrong
+
+    post:
+      summary: Create a character
+      description: Returns newly created character.
+      tags:
+        - characters
+      requestBody:
+        description: Character data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                gender:
+                  type: string
+                status:
+                  type: string
+                species:
+                  type: string
+                description:
+                  type: string
+                description_html:
+                  type: string
+
+      responses:
+        201:
+          description: Successful response
+        400:
+          description: Body is not valid
+        500:
+          description: Something went wrong
+
+  /api/v1/characters/{id}:
+    get:
+      summary: Get character based on Id
+      description: Returns one character.
+      tags:
+        - characters
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: unique identifier of the character to get
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Id is not correctly typed
+        404:
+          description: Character does not exists
+        500:
+          description: Something went wrong
+    put:
+      summary: Update character based on Id
+      description: Returns one character.
+      tags:
+        - characters
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: unique identifier of the character to get
+          schema:
+            type: integer
+            format: int64
+            minimum: 1t
+      requestBody:
+        description: Character data to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                gender:
+                  type: string
+                status:
+                  type: string
+                species:
+                  type: string
+                description:
+                  type: string
+                description_html:
+                  type: string
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Id is not correctly typed
+        404:
+          description: Character does not exists
+        500:
+          description: Something went wrong
+
+    delete:
+      summary: Delete character based on Id
+      description: Returns empty.
+      tags:
+        - characters
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: unique identifier of the character to get
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        204:
+          description: Successful response
+        400:
+          description: Id is not correctly typed
+        404:
+          description: Character does not exists
+        500:
+          description: Something went wrong
+
+  /api/v1/locations:
+    get:
+      summary: Get all locations
+      description: Returns all locations. It supports pagination with `page=<number>` and `size=<number>` by default is 5
+      tags:
+        - locations
+      responses:
+        200:
+          description: Successful response
+        500:
+          description: Something went wrong
+
+  /api/v1/locations/{id}:
+    get:
+      summary: Get location based on id
+      description: Returns one location.
+      tags:
+        - locations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: unique identifier of the character to get
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Id is not correctly types
+        404:
+          description: Resource was not found
+        500:
+          description: Something went wrong
+
+  /api/v1/episodes:
+    get:
+      summary: Get all episodes
+      description: Returns all episodes. It supports pagination with `page=<number>` and `size=<number>` by default is 5
+      tags:
+        - episodes
+      responses:
+        200:
+          description: Successful response
+        500:
+          description: Something went wrong
+
+  /api/v1/episodes/{id}:
+    get:
+      summary: Get an episode based on id
+      description: Returns one episode.
+      tags:
+        - episodes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: unique identifier of the character to get
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Id is not correctly types
+        404:
+          description: Resource was not found
+        500:
+          description: Something went wrong
